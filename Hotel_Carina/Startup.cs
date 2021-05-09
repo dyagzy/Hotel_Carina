@@ -28,6 +28,19 @@ namespace Hotel_Carina
         {
 
             services.AddControllers();
+
+            /*this Ioc helps us to configure Cors so that any person not on 
+            our netweork can be allow to access the Api.
+            Basically CORS is used to either restrict or grant access to 
+            people or network to have access to our Api 
+            NEXT is that we need to go to the configure section of the Start up class and let
+            the App knows that it should use the already configured Cors*/
+
+            services.AddCors(ac => {
+                ac.AddPolicy("AllowAllCorsPolicy", x => x.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel_Carina", Version = "v1" , Description = "This is an hotel managemnt " +
@@ -50,6 +63,9 @@ namespace Hotel_Carina
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hotel_Carina v1"));
 
             app.UseHttpsRedirection();
+
+            //Tells the start up class to use the above configured Cors in the Ioc
+            app.UseCors("AllowAllCorsPolicy");
 
             app.UseRouting();
 
