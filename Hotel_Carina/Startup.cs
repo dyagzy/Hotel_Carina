@@ -1,7 +1,9 @@
+using Hotel_Carina.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +29,7 @@ namespace Hotel_Carina
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+           
 
             /*this Ioc helps us to configure Cors so that any person not on 
             our netweork can be allow to access the Api.
@@ -41,6 +43,12 @@ namespace Hotel_Carina
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             });
+
+            services.AddDbContext<DataBaseContext>(options =>
+
+            options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel_Carina", Version = "v1" , Description = "This is an hotel managemnt " +
@@ -48,6 +56,9 @@ namespace Hotel_Carina
                     "allows customers to check in and out of their hotels, " +
                     "order for rooms, and get general details of the hotel"});
             });
+
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
