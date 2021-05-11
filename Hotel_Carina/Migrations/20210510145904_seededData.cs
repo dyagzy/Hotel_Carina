@@ -2,7 +2,7 @@
 
 namespace Hotel_Carina.Migrations
 {
-    public partial class createdDataBase : Migration
+    public partial class seededData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,6 +43,7 @@ namespace Hotel_Carina.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ratings = table.Column<double>(type: "float", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -58,33 +59,68 @@ namespace Hotel_Carina.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerHotel",
+                name: "CustomerHotels",
                 columns: table => new
                 {
-                    CustomersId = table.Column<int>(type: "int", nullable: false),
-                    HotelsId = table.Column<int>(type: "int", nullable: false)
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerHotel", x => new { x.CustomersId, x.HotelsId });
+                    table.PrimaryKey("PK_CustomerHotels", x => new { x.CustomerId, x.HotelId });
                     table.ForeignKey(
-                        name: "FK_CustomerHotel_Customers_CustomersId",
-                        column: x => x.CustomersId,
+                        name: "FK_CustomerHotels_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CustomerHotel_Hotels_HotelsId",
-                        column: x => x.HotelsId,
+                        name: "FK_CustomerHotels_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "Id", "Name", "ShortName" },
+                values: new object[,]
+                {
+                    { 1, "Nigeria", "NGN" },
+                    { 2, "Ghana", "GHN" },
+                    { 3, "Aberden", "ABD" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "IsBooked", "IsCanceled", "Name" },
+                values: new object[,]
+                {
+                    { 1, true, false, "King Judge" },
+                    { 2, true, false, "King Nothighame" },
+                    { 3, true, true, "Bob Neil" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Hotels",
+                columns: new[] { "Id", "Address", "CountryId", "Name", "Price", "Ratings" },
+                values: new object[] { 1, "Ketu Lagos", 1, "Five Fouth by Sheraton", 1503m, 3.5 });
+
+            migrationBuilder.InsertData(
+                table: "Hotels",
+                columns: new[] { "Id", "Address", "CountryId", "Name", "Price", "Ratings" },
+                values: new object[] { 2, "Lekki Lagos", 1, "Protea Hotel", 432.10m, 5.0 });
+
+            migrationBuilder.InsertData(
+                table: "Hotels",
+                columns: new[] { "Id", "Address", "CountryId", "Name", "Price", "Ratings" },
+                values: new object[] { 3, "Ogudu Lagos", 1, "Sheraton Hills and Towers", 780.33m, 4.5 });
+
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerHotel_HotelsId",
-                table: "CustomerHotel",
-                column: "HotelsId");
+                name: "IX_CustomerHotels_HotelId",
+                table: "CustomerHotels",
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_CountryId",
@@ -95,7 +131,7 @@ namespace Hotel_Carina.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CustomerHotel");
+                name: "CustomerHotels");
 
             migrationBuilder.DropTable(
                 name: "Customers");
