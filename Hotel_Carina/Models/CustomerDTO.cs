@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Hotel_Carina.Models
 {
-    public class CustomerDTO
+    public class CustomerDTO : CreateCustomerDTO
     {
+        public int Id { get; set; }
+      
     }
 }

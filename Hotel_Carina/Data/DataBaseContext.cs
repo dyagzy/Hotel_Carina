@@ -94,7 +94,6 @@ namespace Hotel_Carina.Data
                     Name ="King Judge",
                     IsBooked = true,
                     IsCanceled = false
-
                 },
                 new Customer
 
@@ -111,8 +110,32 @@ namespace Hotel_Carina.Data
                     Name = "Bob Neil",
                     IsBooked = true,
                     IsCanceled = true
-
                 });
+
+            builder.Entity<CustomerHotel>()
+                .HasData(
+                new CustomerHotel
+                {
+                    HotelId = 1,
+                    CustomerId = 1
+                },
+                 new CustomerHotel
+                 {
+                     HotelId = 2,
+                     CustomerId = 1
+                 },
+                  new CustomerHotel
+                  {
+                      HotelId = 3,
+                      CustomerId = 2
+                  });
+
+
+
+
+              
+                
+              
             
 
         }

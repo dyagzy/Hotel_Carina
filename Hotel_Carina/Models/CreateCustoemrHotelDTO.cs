@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Hotel_Carina.Models
 {
-    public class CountryDTO : CreateCountryDTO
+    public class CreateCustoemrHotelDTO
     {
-        public int Id { get; set; }
-        public  IList<HotelDTO> Hotels { get; set; }
-
+        [Required]
+        public int CustomerId { get; set; }
+        [Required]
+        public int HotelId { get; set; }
     }
-
-    
 }
