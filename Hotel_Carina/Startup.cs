@@ -1,4 +1,7 @@
+using Hotel_Carina.Configurations;
 using Hotel_Carina.Data;
+using Hotel_Carina.IRepository;
+using Hotel_Carina.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,7 +51,8 @@ namespace Hotel_Carina
 
             options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 
-
+            services.AddAutoMapper(typeof(MapperInitializer));
+            services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel_Carina", Version = "v1" , Description = "This is an hotel managemnt " +
