@@ -19,7 +19,7 @@ namespace Hotel_Carina.Controllers
         private readonly ILogger<CountryController> _logger;
         private readonly IMapper _mapper;
 
-        public CountryController(IUnitofWork unitofWork, ILogger<CountryController> logger, IMapper mapper )
+        public CountryController(IUnitofWork unitofWork, ILogger<CountryController> logger, IMapper mapper)
         {
             _unitofWork = unitofWork;
             _logger = logger;
@@ -31,14 +31,29 @@ namespace Hotel_Carina.Controllers
         {
             try
             {
-                var countries =  await _unitofWork.Countries.GetAll();
+                var countries = await _unitofWork.Countries.GetAll();
                 IList<CountryDTO> results = _mapper.Map<IList<CountryDTO>>(countries);
                 return Ok(results);
             }
             catch (Exception ex)
             {
-
                 _logger.LogError(ex, $"Something went wrong {nameof(GetCountries)}");
+                return StatusCode(500, "Internal server error, please try again later");
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetCountry(int id)
+        {
+            try
+            {
+                var country = await _unitofWork.Countries.Get(q => q.Id == id, new List<string> { "Hotels"});
+               CountryDTO result = _mapper.Map<CountryDTO>(country);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong {nameof(GetCountry)}");
                 return StatusCode(500, "Internal server error, please try again later");
             }
         }

@@ -61,14 +61,15 @@ namespace Hotel_Carina
                     "order for rooms, and get general details of the hotel"});
             });
 
-
-            services.AddControllers();
+            // Chained NewtonSoftJson object with the Add controller method
+            services.AddControllers().AddNewtonsoftJson( opt => 
+            opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) 
             {
                 app.UseDeveloperExceptionPage();
                

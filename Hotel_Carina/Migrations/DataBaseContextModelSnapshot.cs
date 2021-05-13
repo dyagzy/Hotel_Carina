@@ -113,6 +113,23 @@ namespace Hotel_Carina.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("CustomerHotels");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            HotelId = 1
+                        },
+                        new
+                        {
+                            CustomerId = 1,
+                            HotelId = 2
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            HotelId = 3
+                        });
                 });
 
             modelBuilder.Entity("Hotel_Carina.Data.Hotel", b =>
@@ -166,9 +183,54 @@ namespace Hotel_Carina.Migrations
                         {
                             Id = 3,
                             Address = "Ogudu Lagos",
-                            CountryId = 1,
+                            CountryId = 2,
                             Name = "Sheraton Hills and Towers",
                             Price = 780.33m,
+                            Ratings = 4.5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "Abuja Qrt",
+                            CountryId = 2,
+                            Name = "Choice Gate Towers",
+                            Price = 580.13m,
+                            Ratings = 3.5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "Mandela Prims street Uganda ",
+                            CountryId = 3,
+                            Name = "New Horizon Towers",
+                            Price = 780.33m,
+                            Ratings = 4.5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "Havilah Close Austria ",
+                            CountryId = 3,
+                            Name = "Susan Wesly Hotel",
+                            Price = 220.33m,
+                            Ratings = 1.5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Address = "Khinshasha Kenya street",
+                            CountryId = 2,
+                            Name = "Zanzibar Towers & Suits",
+                            Price = 180.33m,
+                            Ratings = 4.5
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Address = "Jburg South Africa",
+                            CountryId = 3,
+                            Name = "BurgeKhalif Hotel & Suits",
+                            Price = 80.33m,
                             Ratings = 4.5
                         });
                 });
@@ -195,12 +257,17 @@ namespace Hotel_Carina.Migrations
             modelBuilder.Entity("Hotel_Carina.Data.Hotel", b =>
                 {
                     b.HasOne("Hotel_Carina.Data.Country", "Country")
-                        .WithMany()
+                        .WithMany("Hotels")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("Hotel_Carina.Data.Country", b =>
+                {
+                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("Hotel_Carina.Data.Customer", b =>

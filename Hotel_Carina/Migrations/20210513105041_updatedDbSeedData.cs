@@ -2,7 +2,7 @@
 
 namespace Hotel_Carina.Migrations
 {
-    public partial class seededData : Migration
+    public partial class updatedDbSeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,17 +105,32 @@ namespace Hotel_Carina.Migrations
             migrationBuilder.InsertData(
                 table: "Hotels",
                 columns: new[] { "Id", "Address", "CountryId", "Name", "Price", "Ratings" },
-                values: new object[] { 1, "Ketu Lagos", 1, "Five Fouth by Sheraton", 1503m, 3.5 });
+                values: new object[,]
+                {
+                    { 1, "Ketu Lagos", 1, "Five Fouth by Sheraton", 1503m, 3.5 },
+                    { 2, "Lekki Lagos", 1, "Protea Hotel", 432.10m, 5.0 },
+                    { 3, "Ogudu Lagos", 2, "Sheraton Hills and Towers", 780.33m, 4.5 },
+                    { 4, "Abuja Qrt", 2, "Choice Gate Towers", 580.13m, 3.5 },
+                    { 7, "Khinshasha Kenya street", 2, "Zanzibar Towers & Suits", 180.33m, 4.5 },
+                    { 5, "Mandela Prims street Uganda ", 3, "New Horizon Towers", 780.33m, 4.5 },
+                    { 6, "Havilah Close Austria ", 3, "Susan Wesly Hotel", 220.33m, 1.5 },
+                    { 8, "Jburg South Africa", 3, "BurgeKhalif Hotel & Suits", 80.33m, 4.5 }
+                });
 
             migrationBuilder.InsertData(
-                table: "Hotels",
-                columns: new[] { "Id", "Address", "CountryId", "Name", "Price", "Ratings" },
-                values: new object[] { 2, "Lekki Lagos", 1, "Protea Hotel", 432.10m, 5.0 });
+                table: "CustomerHotels",
+                columns: new[] { "CustomerId", "HotelId" },
+                values: new object[] { 1, 1 });
 
             migrationBuilder.InsertData(
-                table: "Hotels",
-                columns: new[] { "Id", "Address", "CountryId", "Name", "Price", "Ratings" },
-                values: new object[] { 3, "Ogudu Lagos", 1, "Sheraton Hills and Towers", 780.33m, 4.5 });
+                table: "CustomerHotels",
+                columns: new[] { "CustomerId", "HotelId" },
+                values: new object[] { 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "CustomerHotels",
+                columns: new[] { "CustomerId", "HotelId" },
+                values: new object[] { 2, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerHotels_HotelId",

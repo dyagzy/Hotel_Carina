@@ -74,24 +74,75 @@ namespace Hotel_Carina.Data
                     Address = "Lekki Lagos",
                     Name = "Protea Hotel"
                 },
-
                 new Hotel
                 {
                     Id = 3,
                     Price = 780.33m,
-                    CountryId = 1,
+                    CountryId = 2,
                     Ratings = 4.5,
                     Address = "Ogudu Lagos",
                     Name = "Sheraton Hills and Towers"
 
-                });
+                },
+                 new Hotel
+                 {
+                     Id = 4,
+                     Price = 580.13m,
+                     CountryId = 2,
+                     Ratings = 3.5,
+                     Address = "Abuja Qrt",
+                     Name = "Choice Gate Towers"
+
+                 },
+            new Hotel
+            {
+                Id = 5,
+                Price = 780.33m,
+                CountryId = 3,
+                Ratings = 4.5,
+                Address = "Mandela Prims street Uganda ",
+                Name = "New Horizon Towers"
+
+            },
+            new Hotel
+            {
+                Id = 6,
+                Price = 220.33m,
+                CountryId = 3,
+                Ratings = 1.5,
+                Address = "Havilah Close Austria ",
+                Name = "Susan Wesly Hotel"
+
+            },
+            new Hotel
+            {
+                Id = 7,
+                Price = 180.33m,
+                CountryId = 2,
+                Ratings = 4.5,
+                Address = "Khinshasha Kenya street",
+                Name = "Zanzibar Towers & Suits"
+
+            },
+            new Hotel
+            {
+                Id = 8,
+                Price = 80.33m,
+                CountryId = 3,
+                Ratings = 4.5,
+                Address = "Jburg South Africa",
+                Name = "BurgeKhalif Hotel & Suits"
+
+            });
+
+
 
             builder.Entity<Customer>()
                 .HasData(
                 new Customer
                 {
                     Id = 1,
-                    Name ="King Judge",
+                    Name = "King Judge",
                     IsBooked = true,
                     IsCanceled = false
                 },
@@ -133,13 +184,13 @@ namespace Hotel_Carina.Data
 
 
 
-              
-                
-              
-            
+
+
+
+
 
         }
-       
+
 
     }
 }
