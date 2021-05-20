@@ -1,3 +1,4 @@
+using Hotel_Carina.ConfigHelperExt;
 using Hotel_Carina.Configurations;
 using Hotel_Carina.Data;
 using Hotel_Carina.IRepository;
@@ -48,9 +49,10 @@ namespace Hotel_Carina
             });
 
             services.AddDbContext<DataBaseContext>(options =>
-
             options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 
+            //adds IdentityUser to the IoC
+            services.ConfigureIdentity();
             services.AddAutoMapper(typeof(MapperInitializer));
             services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddSwaggerGen(c =>

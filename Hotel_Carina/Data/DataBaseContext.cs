@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Hotel_Carina.Data
 {
-    public class DataBaseContext : DbContext
+    public class DataBaseContext : IdentityDbContext<ApiUser>
     {
-        public DataBaseContext(DbContextOptions options) : base(options)
+        public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
 
         }
@@ -20,6 +21,7 @@ namespace Hotel_Carina.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
+            base.OnModelCreating(builder);
             //Configure Compisite key for the many to many join table CustomerHotel
 
 
@@ -27,7 +29,7 @@ namespace Hotel_Carina.Data
                 .HasKey(ch => new { ch.CustomerId, ch.HotelId });
 
 
-            // seeds data inot the following tables
+            // seeds data into the following tables
 
             builder.Entity<Country>()
                 .HasData(
