@@ -52,7 +52,9 @@ namespace Hotel_Carina
             options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 
             //adds IdentityUser to the IoC
+            services.AddAuthentication();
             services.ConfigureIdentity();
+
             services.AddAutoMapper(typeof(MapperInitializer));
             services.AddTransient<IUnitofWork, UnitofWork>();
             services.AddSwaggerGen(c =>

@@ -22,6 +22,7 @@ namespace Hotel_Carina.Data
         {
 
             base.OnModelCreating(builder);
+
             //Configure Compisite key for the many to many join table CustomerHotel
 
 
