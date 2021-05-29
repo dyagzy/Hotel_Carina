@@ -18,6 +18,8 @@ namespace Hotel_Carina.Configurations
             CreateMap<Hotel, CreateHotelDTO>().ReverseMap();
             CreateMap<Customer, CustomerDTO>().ReverseMap();
             CreateMap<Customer, CreateCustomerDTO>().ReverseMap();
+            CreateMap<ApiUser, UserDto>().ReverseMap();
+            //CreateMap<ApiUser, LoginUserDto>().ReverseMap();
 
         }
     }
