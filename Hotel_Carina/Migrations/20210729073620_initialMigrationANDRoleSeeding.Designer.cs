@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel_Carina.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20210529124308_addedIdentity")]
-    partial class addedIdentity
+    [Migration("20210729073620_initialMigrationANDRoleSeeding")]
+    partial class initialMigrationANDRoleSeeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -149,61 +149,6 @@ namespace Hotel_Carina.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsBooked = true,
-                            IsCanceled = false,
-                            Name = "King Judge"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsBooked = true,
-                            IsCanceled = false,
-                            Name = "King Nothighame"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsBooked = true,
-                            IsCanceled = true,
-                            Name = "Bob Neil"
-                        });
-                });
-
-            modelBuilder.Entity("Hotel_Carina.Data.CustomerHotel", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomerId", "HotelId");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("CustomerHotels");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            HotelId = 1
-                        },
-                        new
-                        {
-                            CustomerId = 1,
-                            HotelId = 2
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            HotelId = 3
-                        });
                 });
 
             modelBuilder.Entity("Hotel_Carina.Data.Hotel", b =>
@@ -334,6 +279,22 @@ namespace Hotel_Carina.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b2300790-dc60-41ae-8b62-54a9fab4944b",
+                            ConcurrencyStamp = "20edc5e4-7e4e-42fc-947b-6339424e7abd",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "0469c092-39b0-4ec1-ad12-f0910a5b9891",
+                            ConcurrencyStamp = "e99ac51e-d5e5-46dd-ae3f-9c089e8262c7",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -440,25 +401,6 @@ namespace Hotel_Carina.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Hotel_Carina.Data.CustomerHotel", b =>
-                {
-                    b.HasOne("Hotel_Carina.Data.Customer", "Customer")
-                        .WithMany("CustomerHotels")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Hotel_Carina.Data.Hotel", "Hotel")
-                        .WithMany("CustomerHotels")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Hotel");
-                });
-
             modelBuilder.Entity("Hotel_Carina.Data.Hotel", b =>
                 {
                     b.HasOne("Hotel_Carina.Data.Country", "Country")
@@ -524,16 +466,6 @@ namespace Hotel_Carina.Migrations
             modelBuilder.Entity("Hotel_Carina.Data.Country", b =>
                 {
                     b.Navigation("Hotels");
-                });
-
-            modelBuilder.Entity("Hotel_Carina.Data.Customer", b =>
-                {
-                    b.Navigation("CustomerHotels");
-                });
-
-            modelBuilder.Entity("Hotel_Carina.Data.Hotel", b =>
-                {
-                    b.Navigation("CustomerHotels");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,7 +17,7 @@ namespace Hotel_Carina.Data
         [ForeignKey(nameof(Country))]
         public int CountryId { get; set; }
         public Country Country { get; set; }
-        public IEnumerable<CustomerHotel> CustomerHotels { get; set; }
-       //public IEnumerable<CustomerHotel> Customers { get; set; }
+        //public IEnumerable<CustomerHotel> CustomerHotels { get; set; }
+        //public IEnumerable<CustomerHotel> Customers { get; set; }
     }
 }

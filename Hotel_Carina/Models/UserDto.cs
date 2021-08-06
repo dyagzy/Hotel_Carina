@@ -21,7 +21,8 @@ namespace Hotel_Carina.Models
         public string LastName { get; set; }
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
+        public ICollection<string> Roles { get; set; }
 
-     
+
     }
 }

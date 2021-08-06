@@ -3,6 +3,7 @@ using Hotel_Carina.Configurations;
 using Hotel_Carina.Data;
 using Hotel_Carina.IRepository;
 using Hotel_Carina.Repository;
+using Hotel_Carina.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -54,9 +55,12 @@ namespace Hotel_Carina
             //adds IdentityUser to the IoC
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
 
             services.AddAutoMapper(typeof(MapperInitializer));
             services.AddTransient<IUnitofWork, UnitofWork>();
+            services.AddScoped<IAuthManager, AuthManager>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel_Carina", Version = "v1" , Description = "This is an hotel managemnt " +
@@ -88,6 +92,8 @@ namespace Hotel_Carina
             app.UseCors("AllowAllCorsPolicy");
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

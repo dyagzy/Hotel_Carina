@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hotel_Carina.Data;
 using Hotel_Carina.Models;
+using Hotel_Carina.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,19 +18,19 @@ namespace Hotel_Carina.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApiUser> _userManager;
-        private readonly SignInManager<ApiUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
+        private readonly IAuthManager _authManager;
 
-        public AccountController(UserManager<ApiUser> userManager,
-            SignInManager<ApiUser> signInManager
-            , ILogger<AccountController> logger,
-            IMapper mapper)
+        public AccountController(UserManager<ApiUser> userManager, IMapper mapper, 
+                                                                      IAuthManager authManager,
+                                                                        ILogger<AccountController> logger)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _logger = logger;
             _mapper = mapper;
+            _authManager = authManager;
+            
         }
 
         [HttpPost]
@@ -45,12 +46,20 @@ namespace Hotel_Carina.Controllers
             try
             {
                 var user = _mapper.Map<ApiUser>(userDto);
-                var result = await _userManager.CreateAsync(user);
+                user.UserName = userDto.Email;
+                var result = await _userManager.CreateAsync(user, userDto.Paswword);
+
                 if (!result.Succeeded)
                 {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
                     return BadRequest($"User registration attempt failed");
                 }
-                return Accepted();
+                
+                await _userManager.AddToRolesAsync(user, userDto.Roles);
+                return Accepted(result);
 
             }
             catch (Exception)
@@ -64,9 +73,9 @@ namespace Hotel_Carina.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
-            _logger.LogInformation($"Reigstrtaion attempt for {loginDto.Email}");
+            _logger.LogInformation($"Login attempt for {userDto.Email}");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -74,14 +83,13 @@ namespace Hotel_Carina.Controllers
 
             try
             {
+                //var result = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Paswword, false, false);
 
-                var result = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Paswword, false, false);
-              
-                if (!result.Succeeded)
+                if (!await _authManager.ValidateUser(userDto))
                 {
-                    return Unauthorized(loginDto);
+                    return Unauthorized(userDto);
                 }
-                return Accepted();
+                return Accepted( new { Token = _authManager.CreateToken()});
 
             }
             catch (Exception)

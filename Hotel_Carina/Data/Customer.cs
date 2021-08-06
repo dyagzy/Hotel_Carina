@@ -13,7 +13,7 @@ namespace Hotel_Carina.Data
         public bool IsCanceled { get; set; }
 
         //navigation properties
-        public IEnumerable<CustomerHotel> CustomerHotels { get; set; }
+        //public IEnumerable<CustomerHotel> CustomerHotels { get; set; }
 
         //public IEnumerable<Hotel>   Hotels  { get; set; }
     }
