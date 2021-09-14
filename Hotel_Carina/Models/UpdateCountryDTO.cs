@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hotel_Carina.Models
 {
-    public class CountryDTO : CreateCountryDTO
+    public class UpdateCountryDTO  : CreateCountryDTO
     {
-        public int Id { get; set; }
-       
-
+        public IList<CreateHotelDTO> Hotels { get; set; }
     }
-
-    
 }
