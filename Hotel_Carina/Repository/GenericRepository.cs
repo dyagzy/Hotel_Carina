@@ -1,11 +1,13 @@
 ﻿using Hotel_Carina.Data;
 using Hotel_Carina.IRepository;
+using Hotel_Carina.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Hotel_Carina.Repository
 {
@@ -67,6 +69,22 @@ namespace Hotel_Carina.Repository
             return await query.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IPagedList<T>> GetPagedList (RequestParams requestParams , IList<string> includes = null)
+        {
+            IQueryable<T> query = _db;
+            if (includes != null)
+            {
+                foreach (var includeProperty in includes)
+                {
+                   
+                   query = query.Include(includeProperty);
+                    
+                }
+            }
+            return await query.AsNoTracking().ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
+        }
+
+
         public async  Task Insert(T entity)
         {
            await _db.AddAsync(entity);
@@ -78,12 +96,18 @@ namespace Hotel_Carina.Repository
         }
 
         public void Update(T entity)
-        {//this is done as a 2 step process
-            // attache means pay attention to this, it attches the object(entity ) to the Dbset of the enityFrameworkcore
+        {
+            
+            //this is done as a 2 step process
+            // attache means pay attention to this, it attches the 
+            //object(entity ) to the Dbset of the enityFrameworkcore
 
             _db.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;   // says that if the entitiy is modiefied 
-                                                                    //then update whwta we have in the database
+            _context.Entry(entity).State = EntityState.Modified;   
+
+            // says that if the entitiy is modiefied 
+                                                                   
+            //then update whwta we have in the database
         }
     }
 

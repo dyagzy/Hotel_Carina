@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Carina.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class CountryController : ControllerBase
     {
@@ -27,7 +27,25 @@ namespace Hotel_Carina.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("Countries/Paginated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCountries([FromQuery] RequestParams requestParams)
+        {
+            try
+            {
+                var countries = await _unitofWork.Countries.GetPagedList(requestParams);
+                IList<CountryDTO> results = _mapper.Map<IList<CountryDTO>>(countries);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong {nameof(GetCountries)}");
+                return StatusCode(500, "Internal server error, please try again later");
+            }
+        }
+
+        [HttpGet("Countries")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCountries()
@@ -45,7 +63,7 @@ namespace Hotel_Carina.Controllers
             }
         }
 
-        [HttpGet("{id:int}", Name ="GetCountry")]
+        [HttpGet("Country/{id:int}", Name ="GetCountry")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCountry(int id)
@@ -64,7 +82,7 @@ namespace Hotel_Carina.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("CreateCountry")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
